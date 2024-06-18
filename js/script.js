@@ -94,6 +94,7 @@ function start(e) {
 
   window.gameConfig.x = playerCarElement.offsetLeft;
   window.gameConfig.y = playerCarElement.offsetTop;
+  requestAnimationFrame(runFrame);
 }
 
 function changeRivalColor(rivalElement) {
@@ -109,4 +110,34 @@ function calculateElementsAmount(baseHeight) {
 
 function getRandomRival(max) {
   return Math.floor(Math.random() * max + 1);
+}
+
+function runFrame() {
+  if (!window.gameConfig.started) return
+
+  window.gameConfig.score += window.gameConfig.speed;
+  scoreElement.innerText = `PONTUAÇÃO: ${window.gameConfig.score}`;
+
+  if (defaultKeys.a && window.gameConfig.x > 0) {
+    window.gameConfig.x -= window.gameConfig.speed;
+  }
+  if (
+    defaultKeys.d &&
+    window.gameConfig.x < gameRunwayElement.offsetWidth - playerCarElement.offsetWidth
+  ) {
+    window.gameConfig.x += window.gameConfig.speed;
+  }
+  if (defaultKeys.w && window.gameConfig.y > 0) {
+    window.gameConfig.y -= window.gameConfig.speed;
+  }
+  if (
+    defaultKeys.s &&
+    window.gameConfig.y < gameRunwayElement.offsetHeight - playerCarElement.offsetHeight
+  ) {
+    window.gameConfig.y += window.gameConfig.speed;
+  }
+  playerCarElement.style.left = window.gameConfig.x + "px";
+  playerCarElement.style.top = window.gameConfig.y + "px";
+
+  requestAnimationFrame(runFrame);
 }
