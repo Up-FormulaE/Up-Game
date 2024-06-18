@@ -30,3 +30,27 @@ function stopMovement(event) {
   if (event.key in defaultKeys) defaultKeys[event.key] = false;
 }
 
+
+function start(e) {
+  // Pega a dificuldade do dataset e define nas configurações
+  const difficulty = e.target.dataset.mode
+
+  switch (difficulty) {
+    case "easy":
+      window.gameConfig.traffic = 4;
+      window.gameConfig.speed = 3;
+      break;
+    case "hard":
+      window.gameConfig.traffic = 3;
+      window.gameConfig.speed = 8;
+      break;
+    // "normal" ou fallback
+    default:
+      window.gameConfig.traffic = 3;
+      window.gameConfig.speed = 5;
+  }
+  console.log(window.gameConfig)
+
+  // Desabilitar botões
+  menuButtons.forEach((btn) => (btn.disabled = true));
+}
