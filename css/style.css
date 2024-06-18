@@ -113,3 +113,14 @@ body {
   height: 50px;
   left: 145px;
 }
+
+.car {
+  width: 50px;
+  height: 100px;
+  position: absolute;
+
+  background-image: url(../img/player.png);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
