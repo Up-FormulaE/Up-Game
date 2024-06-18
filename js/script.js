@@ -115,6 +115,9 @@ function getRandomRival(max) {
 function runFrame() {
   if (!window.gameConfig.started) return
 
+  moveRoad();
+  moveRival();
+
   window.gameConfig.score += window.gameConfig.speed;
   scoreElement.innerText = `PONTUAÇÃO: ${window.gameConfig.score}`;
 
@@ -140,4 +143,46 @@ function runFrame() {
   playerCarElement.style.top = window.gameConfig.y + "px";
 
   requestAnimationFrame(runFrame);
+}
+
+function moveRoad() {
+  const lanes = document.querySelectorAll(".lane");
+
+  lanes.forEach(lane => {
+    lane.y += window.gameConfig.speed;
+    lane.style.top = lane.y + "px";
+
+    if (lane.y >= gameRunwayElement.offsetHeight) {
+      lane.y = -window.gameConfig.carHeight;
+    }
+  });
+}
+
+function moveRival() {
+  const rivals = document.querySelectorAll(".car[data-rival]");
+
+  rivals.forEach(rivalCarElement => {
+    const playerRect = playerCarElement.getBoundingClientRect();
+    const rivalRect = rivalCarElement.getBoundingClientRect();
+
+    if (
+      playerRect.top <= rivalRect.bottom &&
+      playerRect.right >= rivalRect.left &&
+      playerRect.left <= rivalRect.right &&
+      playerRect.bottom >= rivalRect.top
+    ) {
+      window.gameConfig.started = false;
+    }
+
+    rivalCarElement.y += window.gameConfig.speed / 2;
+    rivalCarElement.style.top = rivalCarElement.y + "px";
+
+    if (rivalCarElement.y >= gameRunwayElement.offsetHeight) {
+      rivalCarElement.y = -window.gameConfig.carHeight * window.gameConfig.traffic;
+      rivalCarElement.style.left =
+        Math.floor(Math.random() * (gameRunwayElement.offsetWidth - 50)) + "px";
+
+      changeRivalColor(rivalCarElement)
+    }
+  });
 }
