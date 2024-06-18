@@ -49,8 +49,64 @@ function start(e) {
       window.gameConfig.traffic = 3;
       window.gameConfig.speed = 5;
   }
-  console.log(window.gameConfig)
 
   // Desabilitar botões
   menuButtons.forEach((btn) => (btn.disabled = true));
+
+  gameRunwayElement.style.minHeight =
+    Math.floor(
+      (document.documentElement.clientHeight - window.gameConfig.carHeight) / window.gameConfig.carHeight
+    ) *
+    window.gameConfig.carHeight +
+    "px";
+
+  for (let i = 0; i < calculateElementsAmount(window.gameConfig.carHeight); i++) {
+    const lane = document.createElement(`div`);
+    lane.classList.add("lane");
+
+    lane.style.top = i * window.gameConfig.carHeight + "px";
+    lane.style.height = window.gameConfig.carHeight / 2 + "px";
+    lane.y = i * window.gameConfig.carHeight;
+    gameRunwayElement.append(lane);
+  }
+
+  for (let i = 1; i < calculateElementsAmount(window.gameConfig.carHeight * window.gameConfig.traffic); i++) {
+    const rivalCarElement = document.createElement("div");
+    rivalCarElement.dataset.rival = true
+    rivalCarElement.classList.add('car')
+    changeRivalColor(rivalCarElement)
+
+    rivalCarElement.y = -window.gameConfig.carHeight * window.gameConfig.traffic * i;
+    rivalCarElement.style.left =
+      Math.floor(Math.random() * (gameRunwayElement.offsetWidth - 50)) + "px";
+    rivalCarElement.style.top = rivalCarElement.y + "px";
+
+    gameRunwayElement.appendChild(rivalCarElement);
+  }
+
+  window.gameConfig.score = 0;
+  window.gameConfig.started = true;
+  gameRunwayElement.appendChild(playerCarElement);
+
+  playerCarElement.style.left = "125px";
+  playerCarElement.style.top = "auto";
+  playerCarElement.style.bottom = "10px";
+
+  window.gameConfig.x = playerCarElement.offsetLeft;
+  window.gameConfig.y = playerCarElement.offsetTop;
+}
+
+function changeRivalColor(rivalElement) {
+  const selectedColor = window.gameConfig.carColors.shift()
+  window.gameConfig.carColors.push(selectedColor)
+
+  rivalElement.style.filter = `hue-rotate(${selectedColor}deg)`;
+}
+
+function calculateElementsAmount(baseHeight) {
+  return gameRunwayElement.offsetHeight / baseHeight + 1;
+}
+
+function getRandomRival(max) {
+  return Math.floor(Math.random() * max + 1);
 }
