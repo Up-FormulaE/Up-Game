@@ -120,11 +120,12 @@ body {
 }
 
 .car {
-  width: 50px;
-  height: 100px;
+  width: calc(136px / 3.9);
+  height: calc(368px / 3.9);
   position: absolute;
+  transform: scale(1.5) rotate(180deg);
 
-  background-image: url(../img/player.png);
+  background-image: url(../img/sprite4.png);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

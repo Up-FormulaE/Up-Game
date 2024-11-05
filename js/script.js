@@ -2,6 +2,7 @@ window.gameConfig = {
   enemies: 7,
   carHeight: 150, // Altura do elemento em pixel
   carColors: [50, 80, 150, 180, 260, 320].sort(() => .5 - Math.round()),
+  carIdx: [1, 2, 3, 5, 6, 7, 8, 9].sort(() => .5 - Math.round()),
 
   started: false,
   score: 0,
@@ -98,10 +99,13 @@ function start(e) {
 }
 
 function changeRivalColor(rivalElement) {
-  const selectedColor = window.gameConfig.carColors.shift()
-  window.gameConfig.carColors.push(selectedColor)
+  // const selectedColor = window.gameConfig.carColors.shift()
+  // window.gameConfig.carColors.push(selectedColor)
+  const selectedIdx = window.gameConfig.carIdx.shift()
 
-  rivalElement.style.filter = `hue-rotate(${selectedColor}deg)`;
+
+  // rivalElement.style.filter = `hue-rotate(${selectedColor}deg)`;
+  rivalElement.style.backgroundImage = `url(/img/sprite${selectedIdx}.png)`
 }
 
 function calculateElementsAmount(baseHeight) {
