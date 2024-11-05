@@ -105,7 +105,7 @@ function changeRivalColor(rivalElement) {
 
 
   // rivalElement.style.filter = `hue-rotate(${selectedColor}deg)`;
-  rivalElement.style.backgroundImage = `url(/img/sprite${selectedIdx}.png)`
+  rivalElement.style.backgroundImage = `url(img/sprite${selectedIdx}.png)`
 }
 
 function calculateElementsAmount(baseHeight) {
